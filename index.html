@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Three JS Molecules</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./js/three/three.module.js",
+                "OrbitControls": "./js/three/addons/OrbitControls.js",
+                "FirstPersonControls": "./js/three/addons/FirstPersonControls.js",
+                "GLTFLoader" : "./js/three/addons/GLTFLoader.js",
+                "BufferGeometryUtils" : "./js/three/addons/BufferGeometryUtils.js"
+            }
+        }
+    </script>
+    <script type="text/javascript" src="js/datgui/dat.gui.min.js"></script>
+
+    <style>
+        body { 
+            margin: 0; 
+            background-color: black;
+        }
+    </style> 
+</head>
+<body>
+    
+
+
+    <script type= "module">
+        //Three.js and addon imports
+        import * as THREE from './js/three/three.module.js';
+        import { FirstPersonControls } from './js/three/addons/FirstPersonControls.js';
+        import { OrbitControls } from './js/three/addons/OrbitControls.js';
+        import { GLTFLoader } from './js/three/addons/GLTFLoader.js'
+
+        //Import assetlist (contains 3D model metadata):
+        import assetlist from './assets/assetlist.json' assert { type: 'json' };
+        
+        //Three.js variables
+        //Scene and renderer
+        let scene, renderer;
+        //GLTF Loader:
+        let loader;
+        //Clock
+        let clock;
+        //Camera
+        let camera;
+        //Controls
+        let controls;
+
+        function loadModel( path, name, type, position, rotation, scale ){
+            // loader.load(
+            //     // resource URL
+            //     'assets/models/greatwhite.glb',
+            //     // called when the resource is loaded
+            //     function ( gltf ) {
+
+            //         scene.add( gltf.scene );
+
+            //         gltf.animations; // Array<THREE.AnimationClip>
+            //         gltf.scene; // THREE.Group
+            //         gltf.scenes; // Array<THREE.Group>
+            //         gltf.cameras; // Array<THREE.Camera>
+            //         gltf.asset; // Object
+
+            //     },
+            //     // called while loading is progressing
+            //     function ( xhr ) {
+            //         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            //     },
+            //     // called when loading has errors
+            //     function ( error ) {
+            //         console.log( 'An error happened' );
+            //     }
+            // );
+        }
+
+        function addModels( data ){
+            console.log(data);
+
+            for( let item of data.items){
+                console.log(item);
+                loadModel( item.path, item.name, item.type, item.position, item.rotation, item.scale );
+            }
+        }
+
+        //Initialization function
+        function init(){
+            //Scene configuration
+            scene = new THREE.Scene();
+            clock = new THREE.Clock(true)
+            
+            //GLTF Loader
+            loader = new GLTFLoader();
+
+            //Camera configuration
+            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+            camera.position.x = 1;
+            camera.position.y = 1;
+            camera.lookAt( 0, 0, 0 )
+
+            //Renderer configuration
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setClearColor( 0x000000, 0 );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+            renderer.setAnimationLoop( function () {
+                renderer.render( scene, camera );
+            } );
+            document.body.appendChild( renderer.domElement );
+
+            //Controls configuration
+            controls = new OrbitControls( camera, renderer.domElement );
+
+            //Lighting:
+            const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+
+            //Scene extras:
+            scene.add( new THREE.AxesHelper( 5 ) );
+
+            //Virtual Museum scripts:
+            addModels( assetlist );
+        }
+        
+        //Animation loop
+        function animate() {
+            requestAnimationFrame( animate );
+            renderer.render( scene, camera );
+            controls.update(clock.getDelta());
+        }
+        
+        //Runtime scripts:
+        init();
+        animate();
+    </script>
+</body>
+</html>

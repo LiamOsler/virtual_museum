@@ -1,0 +1,29 @@
+{
+    "name" : "assetlist.json",
+    "description" : "Virtual Museum - Asset List",
+    "author" : "Liam Osler",
+    "date" : "2024-03-01",
+    "version" : "1.0",
+    "items" : [
+        {
+            "name" : "Supergiant Amphipod",
+            "description" : "The amphipod is a type of crustacean that is found in the Abyssal Plane. It is a scavenger, feeding on dead animals that fall to the ocean floor.",
+            "file": "assets/models/amphipod.glb"
+        },
+        {
+            "name" : "Fangtooth Fish",
+            "description" : "The fangtooth fish is a deep sea fish.",
+            "file": "assets/models/fangtooth.glb"
+        },
+        {
+            "name" : "Anglerfish",
+            "description" : "The anglerfish is a deep sea fish. It gets its name from its method of hunting prey, luring its victims with its luminescent fin.",
+            "file": "assets/models/anglerfish.glb"
+        },
+        {
+            "name" : "Great White Shark",
+            "description" : "The great white shark is a large predatory fish that is distributed widely throughout the ocean. It is known for its size and speed.",
+            "file": "assets/models/greatwhiteshark.glb"
+        }
+    ]
+}
